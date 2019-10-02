@@ -64,7 +64,6 @@ var escapeMaze = function(grid) {
       var iNew = temp.getI() + iDirections[i];
       var jNew = temp.getJ() + jDirections[i];
 
-
       // Guard clauses
       // Out of bounds
       if (iNew < 0 || jNew < 0) { continue; }
@@ -74,13 +73,22 @@ var escapeMaze = function(grid) {
       // is a wall
       if (grid[iNew][jNew] == '#') { continue; }
 
+      // Sets visited to true, so that the coords dont
+      // get added to the queue multiple times
+      // and the search doesnt go backwards
       visited[iNew][jNew] = true;
+
+      // Adds the new position to the queue with
+      // 1 more step than the parent position
       queue.enqueue(new Position(grid[iNew][jNew], iNew, jNew, temp.getSteps()+1, temp));
     }
 
+    // removes the previous position from the queue
     queue.dequeue();
   }
 
+  // if the queue is emptied (i.e. search complete)
+  // and the End isn't found, return -1
   return -1;
 
 }
